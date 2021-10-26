@@ -1,6 +1,9 @@
+from os import write
 import dpkt
 import socket
 import pygeoip
+from pathlib import Path
+from datetime import datetime as dt
 
 gi = pygeoip.GeoIP('GeoLiteCity.dat')
 
@@ -53,7 +56,11 @@ def main():
                 '</Style>'
     kmlfooter = '</Document>\n</kml>\n'
     kmldoc=kmlheader+plotIPs(pcap)+kmlfooter
-    print(kmldoc)
+    now = dt.now()
+    current_time = now.strftime("%H_%M_%S")
+    my_kmlfile = open(f"MyMaps {current_time}.KML","w")
+    print(kmldoc, file = my_kmlfile)
 
 if __name__ == '__main__':
     main()
+
